@@ -17,6 +17,10 @@ Vue.createApp({
                 .catch(error => {
                     console.error('Error todos', error);
                 });
+        },
+        toggleTodo(index) {
+            this.todos[index].done = !this.todos[index].done;
         }
-    }
+    },
+
 }).mount('#app')

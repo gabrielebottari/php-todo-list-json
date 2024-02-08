@@ -18,8 +18,13 @@
 
             <div id="app">
                 <h1>Todo List</h1>
-                <ul>
-                    <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+                <ul class="list-group">
+                    <li v-for="(todo, index) in todos" :key="index" 
+                    class="list-group-item" 
+                    @click="toggleTodo(index)"
+                    :class="{ 'text-decoration-line-through': todo.done }">
+                    {{ todo.text }}
+                    </li>
                 </ul>
             </div>
 
