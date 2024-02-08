@@ -8,7 +8,7 @@
         "done": false
     },
     { 
-        "task": "Fare il bucato",
+        "text": "Fare il bucato",
         "done": false 
     }
 ]
