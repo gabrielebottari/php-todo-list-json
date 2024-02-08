@@ -17,7 +17,10 @@
         <main>
 
             <div id="app">
-                <h1>{{ message }}</h1>
+                <h1>Todo List</h1>
+                <ul>
+                    <li v-for="todo in todos" :key="todo.id">{{ todo.task }}</li>
+                </ul>
             </div>
 
         </main>
