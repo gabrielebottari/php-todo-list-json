@@ -20,7 +20,22 @@ Vue.createApp({
             });
         },
         toggleTodo(index) {
-            this.todos[index].done = !this.todos[index].done;
+            
+            const todo = this.todos[index];
+            axios.post('http://localhost/Classe114/php-todo-list-json/toggle.php', {
+                index: index,
+                done: !todo.done
+            }, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => {
+                
+                this.todos[index].done = !this.todos[index].done;
+                console.log('Todo updated', response.data);
+            })
+            .catch(error => {
+                console.error('Error updating todo', error);
+            });
         },
         saveTodos() {
 
