@@ -5,6 +5,8 @@
     // Trasformo la stringa in una struttura dati utilizzabile in PHP
     $todos = json_decode($file, true);
 
+    header("Access-Control-Allow-Origin: *");
+
     // Dico al client che la risposta contiene un json
     header('Content-Type: application/json');
 
