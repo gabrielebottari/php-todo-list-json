@@ -10,3 +10,7 @@
 body {
     height: 100vh;
 }
+
+span, a {
+    cursor: pointer;
+}
