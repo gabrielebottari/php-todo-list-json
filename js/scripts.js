@@ -2,7 +2,8 @@ Vue.createApp({
     data() {
       return {
         todos: [],
-        newTodo: ''
+        newTodo: '',
+        editingIndex: null,
       }
     },
     mounted() {
@@ -20,18 +21,16 @@ Vue.createApp({
             });
         },
         toggleTodo(index) {
-            
             const todo = this.todos[index];
             axios.post('http://localhost/Classe114/php-todo-list-json/toggle.php', {
                 index: index,
                 done: !todo.done
             }, {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'multipart/form-data' }
             })
-            .then(response => {
-                
+            .then(() => {
+                // Aggiorna direttamente lo stato del todo nell'array todos
                 this.todos[index].done = !this.todos[index].done;
-                console.log('Todo updated', response.data);
             })
             .catch(error => {
                 console.error('Error updating todo', error);
@@ -40,8 +39,7 @@ Vue.createApp({
         saveTodos() {
 
             const emptyTodo = this.newTodo.trim();
-
-            
+          
             if (!emptyTodo) {
                 return;
             }
@@ -52,7 +50,7 @@ Vue.createApp({
                 done: false
             },
             {
-                headers: { 'content-Type':  'multipart/form-data'}
+                headers: { 'content-Type': 'multipart/form-data' }
             })
             .then(response => {
                 console.log('Todos saved', response.data);
@@ -70,18 +68,46 @@ Vue.createApp({
                     index: index,
                 },
                 {
-                    headers: { 'content-Type':  'application/json'}
+                    headers: { 'content-Type': 'application/json'}
                 }
             )
             .then(response => {
                 console.log('Todo removed', response.data);
+                console.log('Tipo di this.todos:', typeof this.todos);
+                console.log('Contenuto di this.todos:', this.todos);
+                console.log(Array.isArray(this.todos), this.todos);
                 this.todos.splice(index, 1);
                 
             })
             .catch(error => {
                 console.error('Error removing todo', error);
             });
-        }
+        },
+        editTodo(index) {
+            this.editingIndex = index;
+        },
+    
+        finishEditing(index) {
+            this.editingIndex = null;
+           
+            this.updateTodoBackend(index, this.todos[index].text);
+        },
+        updateTodoBackend(index, newText) {
+            axios.post('http://localhost/Classe114/php-todo-list-json/edit.php', {
+                index: index,
+                text: newText
+            }, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
+            .then(response => {
+                console.log('Todo updated successfully', response.data);
+                
+            })
+            .catch(error => {
+                console.error('Error updating todo', error);
+            
+            });
+        },
     },
 
 }).mount('#app')

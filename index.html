@@ -35,15 +35,22 @@
                     <div class="d-flex justify-content-center">
                         <ul class="list-group w-50 text-center">
                             <li v-for="(todo, index) in todos" :key="index" 
-                            class="list-group-item list-group-item-info d-flex justify-content-between" 
+                            class="list-group-item list-group-item-info d-flex justify-content-between align-content-center " 
                             >
-                            <span
-                                @click="toggleTodo(index)"
-                                :class="{ 'text-decoration-line-through': todo.done }">
-                                {{ todo.text }}
-                            </span>
-                            
-                            <a @click="removeTodo(index)"><i class="fa-solid fa-xmark"></i></a>
+                            <div v-if="editingIndex === index">
+                                <input type="text" v-model="todos[index].text" @keyup.enter="finishEditing(index)" @blur="finishEditing(index)">
+                            </div>
+                            <div v-else class="d-flex align-items-center">
+                                <span
+                                    @click="toggleTodo(index)"
+                                    :class="{ 'text-decoration-line-through': todo.done }">
+                                    {{ todo.text }}
+                                </span>
+                            </div>
+                            <div>
+                                <a @click="editTodo(index)" class="btn btn-info me-3">Edit</a>
+                                <a @click="removeTodo(index)"><i class="fa-solid fa-xmark"></i></a>
+                            </div>
                             </li>
                         </ul>
                     </div>

@@ -1,23 +1,24 @@
 <?php
     header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type");
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
 
-    $data = json_decode(file_get_contents('php://input'), true);
+    //Carica l'array esistente dei todos
+    $todos = json_decode(file_get_contents('todos.json'), true);
 
-    if (isset($data['index'], $data['done'])) {
-        $todos = json_decode(file_get_contents('todos.json'), true);
-        
-        // Controlla se l'indice esiste
-        if (isset($todos[$data['index']])) {
-            // Aggiorna lo stato 'done' del todo
-            $todos[$data['index']]['done'] = $data['done'];
-            file_put_contents('todos.json', json_encode($todos));
-            
-        } else {
-            echo json_encode(['error' => 'Todo not found']);
-        }
+    //Ottiene l'indice e il nuovo stato 'done' dal POST
+    $index = $_POST['index'];
+    $done = $_POST['done'];
+
+    if ($done === 'true') {
+        $done = true;
     } else {
-        echo json_encode(['error' => 'Invalid request']);
+        $done = false;
     }
+
+    $todos[$index]['done'] = $done;
+
+    file_put_contents('todos.json', json_encode($todos));
+
+    echo json_encode(['success' => true]);
 ?>
