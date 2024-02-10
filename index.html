@@ -23,19 +23,19 @@
             <div id="app">
                 <div class="container">
 
-                    <h1 class="text-primary text-center p-5">To Do List</h1>
+                    <h1 class="text-primary text-center pt-5 pb-3 fw-bold">To BooList <span class="fs-4">V<span class="fs-5">2.0</span></span></h1>
 
-                    <div class="d-flex justify-content-center mb-3">
-                        <div class="input-group w-50">
-                            <input type="text" class="form-control" v-model="newTodo" @keyup.enter="saveTodos" placeholder="Inserisci un nuovo task" required>
-                            <button class="btn btn-primary" @click="saveTodos" :disabled="!newTodo.trim()">ADD To Do</button>
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="input-group w-50 shadow">
+                            <input type="text" class="form-control bg-info-subtle border-primary" v-model="newTodo" @keyup.enter="saveTodos" placeholder="Inserisci un nuovo task" required>
+                            <button class="btn btn-primary border-primary" @click="saveTodos" :disabled="!newTodo.trim()">ADD To Do <i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <ul class="list-group w-50 text-center">
+                        <ul class="list-group w-50 text-center shadow">
                             <li v-for="(todo, index) in todos" :key="index" 
-                            class="list-group-item list-group-item-info d-flex justify-content-between align-content-center " 
+                            class="list-group-item list-group-item-info d-flex justify-content-between align-content-center border-primary" 
                             >
                             <div v-if="editingIndex === index">
                                 <input type="text" v-model="todos[index].text" @keyup.enter="finishEditing(index)" @blur="finishEditing(index)">
@@ -48,8 +48,8 @@
                                 </span>
                             </div>
                             <div>
-                                <a @click="editTodo(index)" class="btn btn-info me-3">Edit</a>
-                                <a @click="removeTodo(index)"><i class="fa-solid fa-xmark"></i></a>
+                                <a @click="editTodo(index)" class="me-3 text-decoration-none text-primary">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                                <a @click="removeTodo(index)" class="text-danger"><i class="fa-solid fa-xmark"></i></a>
                             </div>
                             </li>
                         </ul>
